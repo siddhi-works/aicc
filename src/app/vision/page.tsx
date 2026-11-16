@@ -6,16 +6,16 @@ import { Card, CardContent } from "@/components/ui/card";
 export const metadata: Metadata = { title: "Our Vision & Mission" };
 
 const values = [
-  { icon: Brain, t: "A busy mind is a happy mind", d: "Every game is a small workout for focus, memory and planning." },
-  { icon: Zap, t: "Sharper every day", d: "Think a move ahead, then two. Small habits build a sharp mind." },
-  { icon: Users, t: "Everyone gets a seat", d: "Kids, parents and grandparents. Beginners are as welcome as champions." },
-  { icon: Smile, t: "Fun first", d: "Winning is nice. Enjoying the game is the point." },
+  { icon: Brain, t: "Mental stimulation", d: "Each game exercises focus, memory and planning." },
+  { icon: Zap, t: "Steady improvement", d: "Regular practice builds clearer, more disciplined thinking." },
+  { icon: Users, t: "Open to all", d: "Players of every age and level are welcome." },
+  { icon: Smile, t: "Enjoyment", d: "The aim is to enjoy the game, not only to win it." },
 ];
 
 export default function VisionPage() {
   return (
     <>
-      <PageHeader eyebrow="Vision & mission" title="Keep minds active, curious and sharp — one game at a time." />
+      <PageHeader eyebrow="Vision & mission" title="Keeping minds active, curious and sharp through chess." />
       <Container className="grid gap-6 py-14 md:grid-cols-2">
         <Card className="border-gold/60 bg-gradient-to-br from-gold/15 to-surface">
           <CardContent className="p-8">
@@ -34,7 +34,7 @@ export default function VisionPage() {
       </Container>
       <Container>
         <h2 className="font-serif text-3xl font-semibold">Why we started</h2>
-        <p className="mt-3 max-w-2xl text-lg text-muted">We are a mama–bhaanji team. We began with one hope: that a simple game could keep the mind stimulated and sharp, at any age. That hope still guides every page we build.</p>
+        <p className="mt-3 max-w-2xl text-lg text-muted">We began with one belief: that a simple game can keep the mind stimulated and sharp at any age. That belief continues to guide every feature we build.</p>
         <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {values.map((v) => (
             <Card key={v.t} className="transition-all hover:-translate-y-1">

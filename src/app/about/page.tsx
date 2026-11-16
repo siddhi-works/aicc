@@ -13,18 +13,18 @@ export default function AboutPage() {
     <>
       <PageHeader
         eyebrow="About us"
-        title="Two people, one board, a lot of chai."
-        description="All India Chess Club is a family project — a mama and bhaanji who love sitting down to a good game."
+        title="A chess platform built to keep minds active and sharp."
+        description="All India Chess Club is an independent project created to make chess accessible, enjoyable and educational for players of every age and level."
       />
       <Container className="grid gap-12 py-14 lg:grid-cols-[1.2fr_1fr]">
         <div className="space-y-4 text-lg leading-relaxed text-muted">
-          <h2 className="font-serif text-3xl font-semibold text-foreground">Our story</h2>
-          <p>It started the way many chess stories start: a board on the table, one of us setting up the pieces, the other saying "one more game." Those games turned into long evenings, and the evenings turned into an idea.</p>
-          <p>We wanted a place where anyone — a school kid, a parent, a grandparent — could play, learn and feel their mind wake up a little. No noise, no pressure. Just a good board and a good game.</p>
-          <p>So we built one. It is small, it is honest, and we are still adding to it every week.</p>
+          <h2 className="font-serif text-3xl font-semibold text-foreground">Who we are</h2>
+          <p>All India Chess Club was founded on a simple conviction: regular practice of chess strengthens concentration, memory and strategic thinking, and these benefits should be available to everyone.</p>
+          <p>The platform brings together play against the computer, same-screen multiplayer, structured lessons for beginners and the ability to save and resume games. Each feature is designed to be clear, dependable and easy to use.</p>
+          <p>We continue to develop the platform with a focus on quality, accessibility and a respectful playing environment.</p>
           <div className="flex flex-wrap gap-3 pt-2">
             <Button asChild><Link href="/play">Play a game</Link></Button>
-            <Button asChild variant="outline"><Link href="/vision">Our vision & mission</Link></Button>
+            <Button asChild variant="outline"><Link href="/vision">Our vision and mission</Link></Button>
           </div>
         </div>
         <div>
