@@ -500,7 +500,7 @@ export function Game({ initialTc = "none", initialMode = "bot" }: { initialTc?: 
   const headline = !result ? "" : result.result === "1/2-1/2" ? "Draw" : mode === "bot" ? (youWon ? "You win!" : "You lose") : result.result === "1-0" ? "White wins" : "Black wins";
 
   return (
-    <div className="grid gap-6 lg:grid-cols-[minmax(0,640px)_1fr] xl:grid-cols-[minmax(0,680px)_1fr] animate-fade-up">
+    <div className="grid gap-6 lg:grid-cols-[minmax(0,max(340px,min(620px,calc(100dvh-17rem))))_1fr] animate-fade-up">
       <div className="space-y-3">
         <PlayerBar color={top} />
         <div className="relative">
