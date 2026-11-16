@@ -1,26 +1,92 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #16123d;
+  --foreground: #fff8e7;
+  --surface: #241e66;
+  --surface-2: #2f2880;
+  --border: #4a3fb0;
+  --muted: #b9b2e6;
+  --gold: #ff9f2e;
+  --gold-soft: #ffc46b;
+  --emerald: #2ed38a;
+  --ruby: #ff5d73;
+  --sq-light: #f7e8c6;
+  --sq-dark: #2f9e8f;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-border: var(--border);
+  --color-muted: var(--muted);
+  --color-gold: var(--gold);
+  --color-gold-soft: var(--gold-soft);
+  --color-emerald: var(--emerald);
+  --color-ruby: var(--ruby);
+  --font-sans: var(--font-nunito), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-baloo), ui-rounded, system-ui, sans-serif;
+  --animate-fade-up: fade-up 0.6s ease-out both;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-slide: slide 0.28s cubic-bezier(.2,.8,.2,1) both;
+  --animate-pop: pop 0.5s cubic-bezier(.2,1.4,.4,1) both;
+  --animate-pulse-ring: pulse-ring 1.6s ease-out infinite;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
 }
+@keyframes slide {
+  from { transform: translate(calc(var(--dx) * 100%), calc(var(--dy) * 100%)); }
+  to { transform: none; }
+}
+@keyframes pop {
+  from { opacity: 0; transform: scale(0.8); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+@keyframes pulse-ring {
+  0% { box-shadow: 0 0 0 0 rgb(255 159 46 / 0.5); }
+  100% { box-shadow: 0 0 0 12px rgb(255 159 46 / 0); }
+}
+
+html { color-scheme: dark; scroll-behavior: smooth; }
 
 body {
-  background: var(--background);
+  background: radial-gradient(1200px 600px at 80% -10%, #3a2fa8 0%, transparent 60%), radial-gradient(900px 500px at -10% 30%, #1d6b7a55 0%, transparent 60%), var(--background);
+  background-attachment: fixed;
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
 }
+
+.bg-board-pattern {
+  background-image:
+    conic-gradient(rgb(255 255 255 / 0.035) 25%, transparent 0 50%, rgb(255 255 255 / 0.035) 0 75%, transparent 0);
+  background-size: 64px 64px;
+}
+
+.piece-white {
+  color: #fbf7ec;
+  text-shadow: 0 0 1px #000, 0 0 2px #000, 0 2px 3px rgb(0 0 0 / 0.55);
+}
+.piece-black {
+  color: #15171c;
+  text-shadow: 0 0 1px rgb(255 255 255 / 0.55), 0 2px 3px rgb(0 0 0 / 0.35);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}
+
+@keyframes confetti {
+  0% { transform: translateY(-10%) rotate(0); opacity: 1; }
+  100% { transform: translateY(110vh) rotate(720deg); opacity: 0.9; }
+}
+.confetti-bit { position: fixed; top: -2vh; width: 10px; height: 16px; border-radius: 2px; animation: confetti linear forwards; pointer-events: none; z-index: 60; }
