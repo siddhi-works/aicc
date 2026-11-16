@@ -2,7 +2,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { Chess, type Color, type PieceSymbol, type Square } from "chess.js";
-import { Flag, Handshake, RefreshCw, RotateCcw, Undo2, Bot, Users, Globe, Play, Loader2, Shuffle, Save, Download, Trash2, FolderOpen, Volume2, VolumeX, Check } from "lucide-react";
+import { Flag, Handshake, RefreshCw, RotateCcw, Undo2, Bot, Users, Globe, Play, Loader2, Shuffle, Save, Download, MoreHorizontal, Trash2, FolderOpen, Volume2, VolumeX, Check } from "lucide-react";
 import { Board, Piece, type BoardCell } from "./board";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -71,6 +71,7 @@ export function Game({ initialTc = "none", initialMode = "bot" }: { initialTc?: 
   const [current, setCurrent] = React.useState<SavedGame | null>(null);
   const [toast, setToast] = React.useState<string | null>(null);
   const [muted, setMutedState] = React.useState(false);
+  const [moreOpen, setMoreOpen] = React.useState(false);
   React.useEffect(() => {
     setSaves(loadSaves());
     setCurrent(loadCurrent());
@@ -480,6 +481,12 @@ export function Game({ initialTc = "none", initialMode = "bot" }: { initialTc?: 
           <div className="min-w-0">
             <p className="truncate text-sm font-semibold">{n.name} <span className="font-normal text-muted">{n.sub}</span></p>
             <p className="flex h-5 items-center text-sm text-muted">
+              {active && (
+                <span className={cn("mr-2 flex items-center gap-1 text-xs font-bold", chess.inCheck() ? "text-ruby" : "text-gold-soft")} aria-live="polite">
+                  {n.bot && <Loader2 className="size-3 animate-spin" />}
+                  {n.bot ? "Thinking…" : chess.inCheck() ? "In check!" : "Your move"}
+                </span>
+              )}
               {[...captured[color]].sort((a, b) => VALUE[b] - VALUE[a]).map((p, i) => (
                 <span key={i} className="-mr-1 animate-pop text-lg"><Piece type={p} color={color === "w" ? "b" : "w"} /></span>
               ))}
@@ -550,29 +557,33 @@ export function Game({ initialTc = "none", initialMode = "bot" }: { initialTc?: 
         <PlayerBar color={bottom} />
       </div>
 
-      <div className="space-y-4">
-        <Card>
-          <CardContent className="flex items-center justify-between gap-3 p-4">
-            <div>
-              <p className="text-xs uppercase tracking-widest text-muted">{mode === "bot" ? `vs Computer · ${lvl.name}` : "Multiplayer · same screen"}</p>
-              <p className="flex items-center gap-2 font-serif text-xl" aria-live="polite">
-                {botTurn && !over && <Loader2 className="size-4 animate-spin text-gold" />}
-                {result ? `${result.result} · ${result.reason}` : botTurn ? "Computer is thinking…" : `${turn === "w" ? "White" : "Black"} to move${chess.inCheck() ? " — check!" : ""}`}
-              </p>
-            </div>
-            <Badge variant={over ? "red" : "green"}>{over ? "Finished" : "Live"}</Badge>
-          </CardContent>
-        </Card>
+      <div className="max-w-md space-y-4">
+        <p className="text-sm font-bold text-muted">{mode === "bot" ? `vs Computer · ${lvl.name}` : "Multiplayer · same screen"}{result ? ` · ${result.result} ${result.reason}` : ""}</p>
 
-        <div className="flex flex-wrap gap-2">
-          <Button variant="secondary" size="sm" onClick={() => setPhase("setup")}><RotateCcw />New game</Button>
-          <Button variant="secondary" size="sm" onClick={() => setOrientation((o) => (o === "w" ? "b" : "w"))}><RefreshCw />Flip</Button>
-          <Button variant="secondary" size="sm" onClick={undo} disabled={!history.length || !!end || botTurn}><Undo2 />Undo</Button>
-          <Button variant="secondary" size="sm" onClick={() => (mode === "bot" ? setEnd({ result: "1/2-1/2", reason: "Draw by agreement" }) : setDrawOffer(true))} disabled={over || history.length < 2}><Handshake />Draw</Button>
-          <Button variant="danger" size="sm" onClick={resign} disabled={over || !history.length}><Flag />Resign</Button>
+        <div className="relative flex flex-wrap items-center gap-2">
           <Button size="sm" onClick={saveNow} disabled={!history.length}>{toast ? <Check /> : <Save />}{toast ?? "Save game"}</Button>
-          <Button variant="secondary" size="sm" onClick={downloadPgn} disabled={!history.length}><Download />PGN</Button>
-          <Button variant="ghost" size="icon" aria-label={muted ? "Turn sound on" : "Mute sound"} onClick={() => { setMuted(!muted); setMutedState(!muted); }}>{muted ? <VolumeX /> : <Volume2 />}</Button>
+          <Button variant="secondary" size="sm" onClick={undo} disabled={!history.length || !!end || botTurn}><Undo2 />Undo</Button>
+          <Button variant="secondary" size="sm" onClick={() => setPhase("setup")}><RotateCcw />New game</Button>
+          <Button variant="danger" size="sm" onClick={resign} disabled={over || !history.length}><Flag />Resign</Button>
+          <Button variant="outline" size="sm" aria-haspopup="menu" aria-expanded={moreOpen} onClick={() => setMoreOpen((o) => !o)}><MoreHorizontal />More</Button>
+          {moreOpen && (
+            <>
+              <button aria-label="Close menu" className="fixed inset-0 z-30 cursor-default" onClick={() => setMoreOpen(false)} />
+              <div role="menu" className="absolute right-0 top-full z-40 mt-2 w-52 animate-pop space-y-1 rounded-2xl border-2 border-border bg-surface p-2 shadow-[0_8px_0_0_#120e36]">
+                {[
+                  { l: "Flip board", i: <RefreshCw />, f: () => setOrientation((o) => (o === "w" ? "b" : "w")), d: false },
+                  { l: "Offer draw", i: <Handshake />, f: () => (mode === "bot" ? setEnd({ result: "1/2-1/2", reason: "Draw by agreement" }) : setDrawOffer(true)), d: over || history.length < 2 },
+                  { l: "Download PGN", i: <Download />, f: downloadPgn, d: !history.length },
+                  { l: muted ? "Sound: off" : "Sound: on", i: muted ? <VolumeX /> : <Volume2 />, f: () => { setMuted(!muted); setMutedState(!muted); }, d: false },
+                ].map((m) => (
+                  <button key={m.l} role="menuitem" disabled={m.d} onClick={() => { m.f(); setMoreOpen(false); }}
+                    className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm font-bold transition-colors hover:bg-white/10 disabled:opacity-40 [&_svg]:size-4">
+                    {m.i}{m.l}
+                  </button>
+                ))}
+              </div>
+            </>
+          )}
         </div>
         {drawOffer && !over && (
           <div className="flex items-center justify-between gap-2 rounded-lg border border-gold/40 bg-gold/5 p-3 text-sm animate-pop">

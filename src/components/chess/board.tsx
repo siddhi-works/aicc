@@ -103,12 +103,12 @@ export function Board({
                 )}
               >
                 {ci === 0 && (
-                  <span className={cn("absolute left-0.5 top-0.5 text-[min(2.4cqw,11px)] font-bold", dark ? "text-[var(--sq-light)]" : "text-[var(--sq-dark)]")}>
+                  <span className={cn("absolute left-0.5 top-0.5 text-[max(11px,2.7cqw)] font-extrabold", dark ? "text-[var(--sq-light)]" : "text-[var(--sq-dark)]")}>
                     {8 - r}
                   </span>
                 )}
                 {ri === 7 && (
-                  <span className={cn("absolute bottom-0 right-1 text-[min(2.4cqw,11px)] font-bold", dark ? "text-[var(--sq-light)]" : "text-[var(--sq-dark)]")}>
+                  <span className={cn("absolute bottom-0 right-1 text-[max(11px,2.7cqw)] font-extrabold", dark ? "text-[var(--sq-light)]" : "text-[var(--sq-dark)]")}>
                     {files[c]}
                   </span>
                 )}

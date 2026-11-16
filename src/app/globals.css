@@ -12,7 +12,7 @@
   --emerald: #2ed38a;
   --ruby: #ff5d73;
   --sq-light: #f7e8c6;
-  --sq-dark: #2f9e8f;
+  --sq-dark: #38a99a;
 }
 
 @theme inline {
@@ -78,7 +78,7 @@ body {
 }
 .piece-black {
   color: #15171c;
-  text-shadow: 0 0 1px rgb(255 255 255 / 0.55), 0 2px 3px rgb(0 0 0 / 0.35);
+  text-shadow: 0 0 1px #fff, 0 0 2px rgb(255 255 255 / 0.7), 0 2px 3px rgb(0 0 0 / 0.35);
 }
 
 @media (prefers-reduced-motion: reduce) {
